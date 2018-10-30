@@ -32,6 +32,7 @@ class Nucleotide:
         self.linkage = linkage
 
         if linkage is None:
+
             self.is_end = True
         else:
             self.is_end = False
@@ -63,6 +64,7 @@ class Sequence:
         for nucleotide_start_idx in range(0, len(sequence_string) +1, 4):
 
             # populate from string
+
             modification = sequence_string[nucleotide_start_idx]
             base = sequence_string[nucleotide_start_idx+1]
             backbone = sequence_string[nucleotide_start_idx+2]
@@ -72,13 +74,15 @@ class Sequence:
                 linkage = None
 
             # make object
-
             new_nuc = Nucleotide(modification=modification, base=base, backbone=backbone, linkage=linkage)
 
             # add to object list
 
             self.sequence += [new_nuc]
 
+        # Make sure last in sequence has no linkage
+        if not self.sequence[-1].is_end:
+            sys.stderr.write("Warning; last nucleotide ({}) seems to have a linkage".format(self.sequence[-1]))
 
 
     def sequence_length(sequence_str):
