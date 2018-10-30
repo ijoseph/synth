@@ -1,5 +1,6 @@
 import sys
 import copy
+import collections
 
 class Nucleotide:
     """
@@ -51,23 +52,32 @@ class Sequence:
 
     def __init__(self, sequence_string):
         """
-        Sanity-checks sequence to make sure it's valid, and parses into list of Nucleotide-s.
+        Sanity-checks sequence to make sure it's valid, and tokenizes into list of Nucleotide-s.
         :param sequence_string:
         """
+
+
         self.sequence_string_raw = copy.copy(sequence_string) # save this by copying; don't want to mutate accidentally
 
 
         self.sequence = [] # will hold list of Nucleotides.
 
-        # there should be a start every 4 positions
+        if not len(sequence_string):
+            return
 
+        # there should be a start every 4 positions
         for nucleotide_start_idx in range(0, len(sequence_string) +1, 4):
 
             # populate from string
 
-            modification = sequence_string[nucleotide_start_idx]
-            base = sequence_string[nucleotide_start_idx+1]
-            backbone = sequence_string[nucleotide_start_idx+2]
+            try:
+                modification = sequence_string[nucleotide_start_idx]
+                base = sequence_string[nucleotide_start_idx+1]
+                backbone = sequence_string[nucleotide_start_idx+2]
+            except IndexError:
+                sys.stderr.write("Sequence malformed; perhaps a linker was forgotten. Input: '{}'"
+                                 .format(self.sequence_string_raw))
+                break
             try:
                 linkage = sequence_string[nucleotide_start_idx+3]
             except IndexError:
@@ -85,12 +95,66 @@ class Sequence:
             sys.stderr.write("Warning; last nucleotide ({}) seems to have a linkage".format(self.sequence[-1]))
 
 
-    def sequence_length(sequence_str):
+    def length(self):
         """
-        Determines length of sequence string
-        :param sequence_str:
+        Determines length by counting tokenized string
         :return:
         """
+
+        return len(self.sequence)
+
+
+    def product_type(self):
+        """
+        :return: 'vanilla RNA' if only RNA backbone, 'chimera' if both DNA and RNA, 'mod RNA' if m and r in
+        backbone, plus every m has an 's' linkage.
+        """
+
+        sugar_backbone_counts = collections.defaultdict(lambda: 0) # assume no counts for everything at the start
+
+        # tabulate
+        for nt in self.sequence:
+            sugar_backbone_counts[nt.backbone] +=1
+
+
+        # If only r, then 'vanilla RNA'
+        if sugar_backbone_counts['r'] == len(self.sequence):
+            return ('vanilla RNA')
+
+        elif sugar_backbone_counts['d'] >0 and sugar_backbone_counts['r'] >0:
+
+            if sugar_backbone_counts['m'] >0 : # don't know what to do with mod, DNA, and RNA
+                sys.stderr.write("warning: sequence seems to be DNA, RNA, AND mod somehow {}"
+                                 .format(self.sequence_string_raw))
+                return ('unknown')
+
+            return('chimera')
+
+        elif sugar_backbone_counts['m'] > 0 and sugar_backbone_counts['r'] > 0:
+            for nt in self.sequence:
+                if nt.backbone == 'm':
+                    if nt.linkage is not None and nt.linkage !='s': # must have 's' linkage if 'm' sugar
+                        return ('unkonwn')
+
+            return ('mod RNA')
+            # Make sure all 'm' sugars have 's' as linkage
+        else:
+            sys.stderr.write("warning: weird sequence {}".format(self.sequence_string_raw))
+            return ('unkonwn')
+
+
+
+
+
+
+
+
+
+
+    def __len__(self):
+        return(self.length())
+
+
 
     def __repr__(self):
         return str(list(str(base) for base in self.sequence))
