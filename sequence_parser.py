@@ -145,12 +145,6 @@ class Sequence:
 
 
 
-
-
-
-
-
-
     def __len__(self):
         return(self.length())
 
@@ -161,4 +155,22 @@ class Sequence:
 
     def __str__(self):
         return (self.__repr__())
+
+
+def sequence_str_to_len(sequence_str):
+    """
+    Function a.
+    Parses and santiy-checks via the Sequence class, then returns length of input string.
+    """
+
+    return Sequence(sequence_str).length()
+
+
+def sequence_str_to_product_type(sequence_str):
+    """
+    Function b.
+    Parses, returns product_type. Warnings if something's a bit unexpected.
+
+    """
+    return Sequence(sequence_str).product_type()
 

@@ -34,6 +34,8 @@ class TestSequence(TestCase):
 
         self.assertEquals(sequence_parser.Sequence("").length(), 0)
 
+        self.assertEquals(sequence_parser.sequence_str_to_len(self.test_mod),  13)
+
 
     def test_product_type(self):
         self.assertEquals(sequence_parser.Sequence(self.test_vanilla).product_type(), 'vanilla RNA')
@@ -41,6 +43,11 @@ class TestSequence(TestCase):
         self.assertEquals(sequence_parser.Sequence(self.test_chimera).product_type(), 'chimera')
 
         self.assertEquals(sequence_parser.Sequence(self.test_mod).product_type(), 'mod RNA')
+
+        # eschewing more adversarial tests in favor of switching to part 2
+
+        # test convenience fn
+        self.assertEquals(sequence_parser.sequence_str_to_product_type(self.test_mod), 'mod RNA')
 
 
 
