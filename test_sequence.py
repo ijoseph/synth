@@ -5,7 +5,7 @@ class TestSequence(TestCase):
 
     def setUp(self):
 
-        self.test_vanilla = "-Uro-Uro-Aro-Gro-Cro-Uro-Aro-Aro-Cro-Gro-Gro-Uro-Ur"
+        self.test_vanilla = "-Uro-Uro-Aro-Gro-Cro-Uro-Aro-Aro-Cro-Gro-Gro-Uro-Ur" # length 13
 
         self.test_chimera = "-Uro-Uro-Aro-Gdo-Cdo-Tdo-Ado-Aro-Cro-Gro-Gro-Uro-Ur"
 
@@ -13,8 +13,13 @@ class TestSequence(TestCase):
 
 
     def test_init(self):
-        s =sequence_parser.Sequence(self.test_vanilla)
-        print(s)
+
+        self.assertIsNotNone(sequence_parser.Sequence(self.test_vanilla))
+        self.assertIsNotNone(sequence_parser.Sequence(self.test_vanilla))
+
+
+
+
 
 
 

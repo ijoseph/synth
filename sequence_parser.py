@@ -26,7 +26,7 @@ class Nucleotide:
 
         self.backbone = backbone
 
-        if not linkage is not None and linkage not in ['o', 's']:
+        if linkage is not None and linkage not in ['o', 's']:
             sys.stderr.write("Warning: strange linkage {}".format(linkage))
 
         self.linkage = linkage
@@ -87,3 +87,10 @@ class Sequence:
         :param sequence_str:
         :return:
         """
+
+    def __repr__(self):
+        return str(list(str(base) for base in self.sequence))
+
+    def __str__(self):
+        return (self.__repr__())
+
