@@ -160,7 +160,7 @@ class Sequence:
 def sequence_str_to_len(sequence_str):
     """
     Function a.
-    Parses and santiy-checks via the Sequence class, then returns length of input string.
+    Parses and sanity-checks via the Sequence class, then returns length of input string.
     """
 
     return Sequence(sequence_str).length()
