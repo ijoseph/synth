@@ -1,5 +1,3 @@
-# synth
-
 ## Problem 1: Parsing Sequence Strings
 
 ### Function a. `str` sequence -> `int` length of sequence in nucleotides
