@@ -1,0 +1,20 @@
+from unittest import TestCase
+import sequence_parser
+
+class TestSequence(TestCase):
+
+    def setUp(self):
+
+        self.test_vanilla = "-Uro-Uro-Aro-Gro-Cro-Uro-Aro-Aro-Cro-Gro-Gro-Uro-Ur"
+
+        self.test_chimera = "-Uro-Uro-Aro-Gdo-Cdo-Tdo-Ado-Aro-Cro-Gro-Gro-Uro-Ur"
+
+        self.test_mod = "-Ums-Ums-Ams-Gro-Cro-Uro-Aro-Aro-Cro-Gro-Gms-Ums-Um"
+
+
+    def test_init(self):
+        s =sequence_parser.Sequence(self.test_vanilla)
+        print(s)
+
+
+
