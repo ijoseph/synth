@@ -35,6 +35,19 @@ class TestSequence(TestCase):
         self.assertEquals(sequence_parser.Sequence("").length(), 0)
 
 
+    def test_product_type(self):
+        self.assertEquals(sequence_parser.Sequence(self.test_vanilla).product_type(), 'vanilla RNA')
+
+        self.assertEquals(sequence_parser.Sequence(self.test_chimera).product_type(), 'chimera')
+
+        self.assertEquals(sequence_parser.Sequence(self.test_mod).product_type(), 'mod RNA')
+
+
+
+
+
+
+
 
 
 
